@@ -34,11 +34,12 @@ const verifyRefreshToken = (token) => {
 const getRefreshCookieOptions = (rememberMe) => {
   const longMaxAge = 1000 * 60 * 60 * 24 * 30;
   const shortMaxAge = 1000 * 60 * 60 * 24 * 7;
+  const isProduction = process.env.NODE_ENV === 'production';
 
   return {
     httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    sameSite: isProduction ? 'none' : 'lax',
+    secure: isProduction,
     maxAge: rememberMe ? longMaxAge : shortMaxAge,
   };
 };
